@@ -1,4 +1,5 @@
-import { StrictMode } from 'react'
+/* eslint-disable react-refresh/only-export-components */
+import { StrictMode, useEffect } from 'react'
 import ReactDOM from 'react-dom/client'
 import { AxiosError } from 'axios'
 import {
@@ -11,6 +12,10 @@ import { useAuthStore } from '@/stores/authStore'
 import { handleServerError } from '@/utils/handle-server-error'
 import { toast } from '@/hooks/use-toast'
 import { ThemeProvider } from './context/theme-context'
+import {
+  AuthStateProvider,
+  useAuthStateContext,
+} from './domain/auth/client/use-auth-state'
 import './index.css'
 // Generated Routes
 import { routeTree } from './routeTree.gen'
@@ -83,11 +88,25 @@ const router = createRouter({
   defaultPreloadStaleTime: 0,
 })
 
-// Register the router instance for type safety
 declare module '@tanstack/react-router' {
   interface Register {
     router: typeof router
   }
+}
+
+// Component to handle unauthenticated redirects
+const RedirectUnauthenticated = () => {
+  const { authState } = useAuthStateContext()
+
+  useEffect(() => {
+    if (authState.tag === 'unauthenticated') {
+      router.navigate({ to: '/sign-in' })
+    } else if (authState.tag === 'authenticated') {
+      router.navigate({ to: '/' })
+    }
+  }, [authState.tag])
+
+  return null
 }
 
 // Render the app
@@ -98,7 +117,10 @@ if (!rootElement.innerHTML) {
     <StrictMode>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider defaultTheme='light' storageKey='vite-ui-theme'>
-          <RouterProvider router={router} />
+          <AuthStateProvider>
+            <RedirectUnauthenticated />
+            <RouterProvider router={router} />
+          </AuthStateProvider>
         </ThemeProvider>
       </QueryClientProvider>
     </StrictMode>

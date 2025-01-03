@@ -1,4 +1,6 @@
 import { Link } from '@tanstack/react-router'
+import { useAuthStateContext } from '@/domain/auth/client/use-auth-state'
+import { useUnAuthQueryClient } from '@/domain/auth/client/use-un-auth-query-client'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
@@ -13,6 +15,10 @@ import {
 } from '@/components/ui/dropdown-menu'
 
 export function ProfileDropdown() {
+  const unAuthQueryClient = useUnAuthQueryClient()
+  const { onLogOut } = useAuthStateContext()
+
+  const $logOut = unAuthQueryClient.logout.useMutation({})
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
@@ -55,7 +61,18 @@ export function ProfileDropdown() {
           <DropdownMenuItem>New Team</DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
+            $logOut.mutate(
+              {},
+              {
+                onSuccess: () => {
+                  onLogOut()
+                },
+              }
+            )
+          }}
+        >
           Log out
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>

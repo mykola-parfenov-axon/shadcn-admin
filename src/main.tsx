@@ -99,10 +99,11 @@ const RedirectUnauthenticated = () => {
   const { authState } = useAuthStateContext()
 
   useEffect(() => {
+
     if (authState.tag === 'unauthenticated') {
-      router.navigate({ to: '/sign-in' })
+      router.navigate({ to: '/sign-in'})
     } else if (authState.tag === 'authenticated') {
-      router.navigate({ to: '/' })
+      router.navigate({ to: '/'})
     }
   }, [authState.tag])
 

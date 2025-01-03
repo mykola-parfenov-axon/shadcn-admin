@@ -1,8 +1,8 @@
 import { z } from 'zod'
-import { ZUserName, ZUserPassword } from '@/domain/schema/auth'
-import { IUser } from '@/domain/schema/user'
 import { createQueryKeys } from '@lukemorales/query-key-factory'
 import { initContract } from '@ts-rest/core'
+import { ZUserName, ZUserPassword } from '../schema/auth'
+import { IUser } from '../schema/user'
 
 const c = initContract()
 

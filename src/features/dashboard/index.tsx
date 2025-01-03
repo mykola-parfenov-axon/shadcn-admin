@@ -1,3 +1,5 @@
+import { useOrganizationsQueryClient } from '@/domain/organizations/client/use-organizations-query-client'
+import { keyWithParam, qk } from '@/domain/queries'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -17,6 +19,21 @@ import { Overview } from './components/overview'
 import { RecentSales } from './components/recent-sales'
 
 export default function Dashboard() {
+  const organizationsQueryClient = useOrganizationsQueryClient()
+
+  const $organizations = organizationsQueryClient.getOrganizations.useQuery(
+    ...keyWithParam(qk.organizations.organizationsList, {
+      query: {
+        sort: 'CREATED_AT',
+        direction: 'ASC',
+        limit: 25,
+        skip: 0,
+      },
+    })
+  )
+
+  console.log($organizations.data , 'nnn')
+
   return (
     <>
       {/* ===== Top Heading ===== */}

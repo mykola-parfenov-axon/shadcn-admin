@@ -22,9 +22,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { User } from '../data/schema'
+import { Organization } from '../data/schema'
 import { DataTablePagination } from './data-table-pagination'
-import { DataTableToolbar } from './data-table-toolbar'
 
 declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -34,11 +33,11 @@ declare module '@tanstack/react-table' {
 }
 
 interface DataTableProps {
-  columns: ColumnDef<User>[]
-  data: User[]
+  columns: ColumnDef<Organization>[]
+  data: Organization[]
 }
 
-export function UsersTable({ columns, data }: DataTableProps) {
+export function OrganizationsTable({ columns, data }: DataTableProps) {
   const [rowSelection, setRowSelection] = useState({})
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -68,7 +67,6 @@ export function UsersTable({ columns, data }: DataTableProps) {
 
   return (
     <div className='space-y-4'>
-      <DataTableToolbar table={table} />
       <div className='rounded-md border'>
         <Table>
           <TableHeader>

@@ -1,4 +1,6 @@
 import { Link } from '@tanstack/react-router'
+import { useAuthStateContext } from '@/domain/auth/client/use-auth-state'
+import { useUnAuthQueryClient } from '@/domain/auth/client/use-un-auth-query-client'
 import {
   BadgeCheck,
   Bell,
@@ -34,6 +36,11 @@ export function NavUser({
   }
 }) {
   const { isMobile } = useSidebar()
+
+  const unAuthQueryClient = useUnAuthQueryClient()
+  const { onLogOut } = useAuthStateContext()
+
+  const $logOut = unAuthQueryClient.logout.useMutation({})
 
   return (
     <SidebarMenu>
@@ -102,7 +109,18 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                $logOut.mutate(
+                  {},
+                  {
+                    onSuccess: () => {
+                      onLogOut()
+                    },
+                  }
+                )
+              }}
+            >
               <LogOut />
               Log out
             </DropdownMenuItem>

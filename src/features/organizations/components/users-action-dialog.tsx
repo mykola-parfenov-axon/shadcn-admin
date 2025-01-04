@@ -26,7 +26,7 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { PasswordInput } from '@/components/password-input'
 import { SelectDropdown } from '@/components/select-dropdown'
 import { userTypes } from '../data/data'
-import { User } from '../data/schema'
+import { Organization } from '../data/schema'
 
 const formSchema = z
   .object({
@@ -89,7 +89,7 @@ const formSchema = z
 type UserForm = z.infer<typeof formSchema>
 
 interface Props {
-  currentRow?: User
+  currentRow?: Organization
   open: boolean
   onOpenChange: (open: boolean) => void
 }
@@ -143,7 +143,7 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
     >
       <DialogContent className='sm:max-w-lg'>
         <DialogHeader className='text-left'>
-          <DialogTitle>{isEdit ? 'Edit User' : 'Add New User'}</DialogTitle>
+          <DialogTitle>{isEdit ? 'Edit Organization' : 'Add New Organization'}</DialogTitle>
           <DialogDescription>
             {isEdit ? 'Update the user here. ' : 'Create new user here. '}
             Click save when you&apos;re done.

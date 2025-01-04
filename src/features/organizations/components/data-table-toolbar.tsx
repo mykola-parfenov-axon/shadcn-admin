@@ -2,9 +2,9 @@ import { Cross2Icon } from '@radix-ui/react-icons'
 import { Table } from '@tanstack/react-table'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { DataTableViewOptions } from './data-table-view-options'
 import { userTypes } from '../data/data'
 import { DataTableFacetedFilter } from './data-table-faceted-filter'
-import { DataTableViewOptions } from './data-table-view-options'
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
@@ -21,10 +21,10 @@ export function DataTableToolbar<TData>({
         <Input
           placeholder='Filter tasks...'
           value={
-            (table.getColumn('username')?.getFilterValue() as string) ?? ''
+            (table.getColumn('name')?.getFilterValue() as string) ?? ''
           }
           onChange={(event) =>
-            table.getColumn('username')?.setFilterValue(event.target.value)
+            table.getColumn('name')?.setFilterValue(event.target.value)
           }
           className='h-8 w-[150px] lg:w-[250px]'
         />
